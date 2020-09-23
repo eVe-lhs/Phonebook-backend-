@@ -11,6 +11,7 @@ var persons = [
 const date = new Date();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("build"));
 morgan.token("newObject", function (req, res) {
   if (req.method !== "POST") {
     return null;
