@@ -9,7 +9,7 @@ mongoose
     useCreateIndex: true,
     useUnifiedTopology: true,
   })
-  .then((result) => {
+  .then(() => {
     console.log("connected to database");
   })
   .catch((error) => {

@@ -9,7 +9,7 @@ const Number = require("./models/number");
 
 app.use(express.static("build"));
 app.use(express.json());
-morgan.token("newObject", function (req, res) {
+morgan.token("newObject", function (req) {
   if (req.method !== "POST") {
     return null;
   } else {
@@ -45,9 +45,9 @@ app.get("/api/persons/:id", (request, response, next) => {
       next(error);
     });
 });
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Number.findByIdAndRemove(request.params.id)
-    .then((result) => response.status(204).end())
+    .then(() => response.status(204).end())
     .catch((error) => next(error));
 });
 app.put("/api/persons/:id", (request, response, next) => {
@@ -88,7 +88,7 @@ const errorHandler = (error, request, response, next) => {
   console.log(error.message);
   if (error.name === "CastError") {
     return response.status(400).send({ error: "Malformatted id" });
-  } else if ((error.name = "ValidationError")) {
+  } else if (error.name === "ValidationError") {
     return response.status(400).send({ error: error.message });
   }
   next(error);
